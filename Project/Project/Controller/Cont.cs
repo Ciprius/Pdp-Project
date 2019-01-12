@@ -19,7 +19,6 @@ namespace Project.Controller
         public Cont(int no)
         {
             this.nodes = new List<Node>();
-            this.noColors = no;
             this.threads = new Thread[no];
         }
 
@@ -43,13 +42,20 @@ namespace Project.Controller
 
         public void Generate(int nrV)
         {
+            int max = 0;
+            Random random = new Random();
             for (int i = 0; i < nrV; i++)
                 this.nodes.Add(new Node(i));
 
             foreach (var elem in this.nodes)
+            {
                 for (int i = 0; i < nrV; i++)
                     if (graph[elem.Id, i].Equals(1))
                         elem.Nodes.Add(nodes[i]);
+                if (elem.Nodes.Count > max)
+                    max = elem.Nodes.Count;
+            }
+            this.noColors = random.Next(max + 1, nrV + 1);
         }
 
         public void Start()
@@ -89,6 +95,7 @@ namespace Project.Controller
         public string Show()
         {
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("No colors:").Append(this.noColors).Append("\n");
             nodes.ForEach(elem => stringBuilder.Append("Id:").Append(elem.Id).Append(" Color:")
                 .Append(elem.Color).Append(" Neighbours:").Append(elem.NodesToString()).Append("\n"));
             return stringBuilder.ToString();

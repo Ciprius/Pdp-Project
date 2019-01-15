@@ -25,8 +25,11 @@ namespace Project_MPI
                 for (int j = i + 1; j < size; j++)
                 {
                     int fiftyPercent = random.Next(2);
-                    if(fiftyPercent != 0)
+                    if (fiftyPercent != 0)
+                    {
                         nodes[i].AddVecin(nodes[j]);
+                        nodes[j].AddVecin(nodes[i]);
+                    }
                 }
             }
 
@@ -69,7 +72,6 @@ namespace Project_MPI
                 if (node.GetCountVecini() >= noColors)
                 {
                     return false;
-
                 }
             }
             return true;

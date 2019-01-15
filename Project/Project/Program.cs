@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,11 +29,15 @@ namespace Project
                     Cont cont = new Cont(nrV);
                     cont.InitMatrix(nrV);
                     cont.Generate(nrV);
+                    Stopwatch startwatch = new Stopwatch();
+                    startwatch.Start();
                     cont.Start();
                     foreach (var thread in cont.GetThreads())
                         thread.Join();
+                    startwatch.Stop();
 
                     Console.WriteLine(cont.Show());
+                    Console.WriteLine("Time taken: {0} sec", startwatch.Elapsed.ToString());
                 }
             }
         }
